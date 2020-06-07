@@ -6,6 +6,6 @@ The point of this project was to extract all information about missions & struct
 - structure : name, address, contact's mail & phone
 - missions : title, description, skills, additional information, update date
 
-Some of these items can bea scraped from html tags and others need to be scraped from java/php calls included into the html code.
+Some of these items can be scraped directly from html tags and others need to be scraped from java/php calls included into the html code.
 
 Scraping is done with BeautifulSoup
