@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -154,4 +156,4 @@ for id_annonce, id_ass in zip(ids, ids_assoc):
 #_______export missions to excel_______
 scrap = pd.DataFrame({'link':urls, 'structure': structure, 'address':address,  'contact_phone':contact_phone, 'assoc_phone':assoc_phone, 'mail_contact':mail_contact, 'mail_responsible':mail_responsible, 'title':title, 'descr':descr, 'add_info':add_info, 'skills':skills, 'availability':availability, 'mission_type':mission_type, 'public_mission':public_mission, 'mission_duration':mission_duration, 'update_date':update_date})
 scrap['date_scrap']=pd.to_datetime("today").date()
-scrap.to_excel(r'scrap_tousbenevoles_missions.xlsx', index=False)
+scrap.to_excel(r'scrap_tousbenevoles_missions.xlsx', index=False) #insert appropriate file path
