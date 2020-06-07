@@ -118,6 +118,39 @@ for url in urls:
 ids_assoc=[re.sub('\D', '', id) for id in ids_assoc]
 ids_assoc=[id[1:] if id[0]=='0' else id for id in ids_assoc]
 
+#scrap mails/phones
+def get_phone_mail(url, params):
+  """ to extract phone or mail from a php link"""
+  response=requests.post(url, data=params, headers=headers)
+  soup = BeautifulSoup(response.text, 'html5lib')
+  extract=soup.find_all('body')[0].text.strip()
+  extract=None if extract=='nop' else extract
+  return extract
+
+contact_phone=[]
+assoc_phone=[]
+mail_contact=[]
+mail_responsible=[]
+
+compteur=1
+print('Missions scrapées :')
+
+for id_annonce, id_ass in zip(ids, ids_assoc):
+  mails=get_phone_mail('https://www.tousbenevoles.org/services/action/action.php', {'action':'show','quoi':'action', 'field':'action_email', 'id':id_annonce, 'from':'action', 'from_id':id_annonce})
+  mail_contact.append(mails)
+
+  mails=get_phone_mail('https://www.tousbenevoles.org/services/association/association.php', {'action':'show','quoi':'association', 'field':'responsible_email', 'id':id_ass, 'from':'action', 'from_id':id_annonce})
+  mail_responsible.append(mails)
+
+  phones=get_phone_mail('https://www.tousbenevoles.org/services/action/action.php', {'action':'show','quoi':'action', 'field':'contact_tel', 'id':id_annonce, 'from':'action', 'from_id':id_annonce})
+  contact_phone.append(phones)
+
+  phones=get_phone_mail('https://www.tousbenevoles.org/services/association/association.php', {'action':'show','quoi':'association', 'field':'assoc_phone', 'id':id_ass, 'from':'action', 'from_id':id_annonce})
+  assoc_phone.append(phones)
+
+  print(compteur)
+  compteur+=1
+
 #_______export missions to excel_______
 scrap = pd.DataFrame({'link':urls, 'structure': structure, 'address':address,  'contact_phone':contact_phone, 'assoc_phone':assoc_phone, 'mail_contact':mail_contact, 'mail_responsible':mail_responsible, 'title':title, 'descr':descr, 'add_info':add_info, 'skills':skills, 'availability':availability, 'mission_type':mission_type, 'public_mission':public_mission, 'mission_duration':mission_duration, 'update_date':update_date})
 scrap['date_scrap']=pd.to_datetime("today").date()
