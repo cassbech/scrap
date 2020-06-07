@@ -10,7 +10,7 @@ urls=[]
 
 url = input("Entrez l'url à scraper :")
 end_url=url.replace('https://www.tousbenevoles.org/trouver-une-mission-benevole?', '')
-pages=int(input("Enrez le nombre de pages de résultats :"))
+pages=int(input("Entrez le nombre de pages de résultats :"))
 
 for i in range(1,pages+1):
   r = requests.get('https://www.tousbenevoles.org/trouver-une-mission-benevole?page='+str(i)+'&'+end_url, headers=headers)
